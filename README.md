@@ -10,13 +10,17 @@ This continer install on first start-up following features:
 * JBoss Fuse 6.3.0 integration on JBoss EAP 6.4.0
 * JBoss Fuse 6.3.0 over Apache Karaf
 
+
 Available Docker image versions :
 
-* JBoss Fuse 6.3.0 Docker ([Dockerfile](https://github.com/hellgate75/docker-jboss-fuse/tree/master/Dockerfile))
+* JBoss Fuse 6.3.0 Docker LATEST ([latest/Dockerfile](https://github.com/hellgate75/docker-jboss-fuse/tree/master/Dockerfile))
+* JBoss Fuse 6.3.0 Docker ([3.6.0/Dockerfile](https://github.com/hellgate75/docker-jboss-fuse/tree/6.3.0/Dockerfile))
+
 
 Source Repositories :
 
 * [docker-jboss-fuse](https://github.com/hellgate75/docker-jboss-fuse)
+
 
 Source Repositories :
 
@@ -176,4 +180,4 @@ Please report any issue on project Issue Tracker at :
 
 ### LICENSE
 
-[LGPL v.3](https://github.com/hellgate75/docker-jboss-fuse/tree/master/LICENSE)
+[LGPL v.3](https://github.com/hellgate75/docker-jboss-fuse/tree/6.3.0/LICENSE)
