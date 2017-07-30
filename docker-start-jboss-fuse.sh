@@ -50,9 +50,10 @@ if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
   restart-jboss-fuse
   echo "Installing JBoss Fuse 6.3.0 Karaf for developers ..."
   unzip -q /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip -d /usr/lib
-  mv /usr/lib/jboss-fuse-* /usr/lib/jboss-fuse-karaf
+  mv /usr/lib/jboss-fuse-* $FUSE_HOME
+  sed -i s/\#admin=admin/admin=P4\$\$w0rd123/g $FUSE_HOME/etc/users.properties
   if [[ "0" == "$?" ]]; then
-    rm -Rf /root/install
+    rm -Rf /root/install\
   else
     echo "Error installing JBoss Fuse 6.3.0 Karaf"
     exit 1
