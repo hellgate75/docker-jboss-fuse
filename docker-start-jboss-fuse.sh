@@ -46,8 +46,6 @@ if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
   fi
   echo "Configuring JBoss EAP Fuse Integration Standalone server ..."
   echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.unsecure=0.0.0.0\"" >> bin/standalone.conf
-  echo "Restarting JBoss EAP Fuse Integration Standalone Server ..."
-  restart-jboss-fuse
   echo "Installing JBoss Fuse 6.3.0 Karaf for developers ..."
   unzip -q /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip -d /usr/lib
   mv /usr/lib/jboss-fuse-* $FUSE_HOME
@@ -58,6 +56,9 @@ if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
     echo "Error installing JBoss Fuse 6.3.0 Karaf"
     exit 1
   fi
+  echo "Restarting JBoss EAP Fuse Integration Standalone Server ..."
+  restart-jboss-fuse
+  echo "Starting JBoss Fuse 6.3.0 Karaf ..."
   start-karaf-fuse
 fi
 
