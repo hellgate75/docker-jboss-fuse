@@ -24,6 +24,7 @@ RUN apt-get update \
     && echo "export EAP_HOME=/usr/lib/jboss-fuse" >> /root/.bashrc \
     && echo "export JBOSS_HOME=/usr/lib/jboss-fuse" >> /root/.bashrc \
     && echo "export JBOSS_USER=root" >> /root/.bashrc \
+    && echo "head-jboss-fuse" >> /root/.bashrc \
     && mkdir -p $JBOSS_HOME \
     && mkdir -p /root/install \
     && ln -s /lib/lsb/init-functions /etc/init.d/functions
@@ -39,6 +40,7 @@ COPY restart-jboss-fuse.sh /usr/local/bin/restart-jboss-fuse
 COPY start-karaf-fuse.sh /usr/local/bin/start-karaf-fuse
 COPY stop-karaf-fuse.sh /usr/local/bin/stop-karaf-fuse
 COPY restart-karaf-fuse.sh /usr/local/bin/restart-karaf-fuse
+COPY head-jboss-fuse.sh /usr/local/bin/head-jboss-fuse
 
 RUN chmod 777 /docker-start-jboss-fuse.sh \
     && chmod 777 /docker-entrypoint.sh \

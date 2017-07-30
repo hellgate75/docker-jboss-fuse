@@ -31,20 +31,19 @@ if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
     echo "Error installing JBoss Fuse 6.3.0 devstudio integration"
     exit 1
   fi
-  echo "Installing JBoss Fuse 6.3.0 EAP integration ..."
+  echo "Installing JBoss Fuse 6.3.0 EAP JBoss/KIE integration ..."
   mkdir /root/install/fuse-integration
   unzip -q /root/install/fuse-integration-eap-full-1.7.0.redhat-630013-installer.zip -d /root/install/fuse-integration
   java -jar /root/install/fuse-integration/kie-eap-installer-6.5.0.Final-redhat-2.jar $EAP_HOME
   if [[ "0" != "$?" ]]; then
-    echo "Error installing JBoss Fuse 6.3.0 EAP integration"
+    echo "Error installing JBoss Fuse 6.3.0 KIE EAP integration"
     exit 1
   fi
-  java -jar /root/install/fuse-integration-eap-installer-1.7.0.redhat-630013.jar $EAP_HOME
+  java -jar /root/install/fuse-integration/fuse-integration-eap-installer-1.7.0.redhat-630013.jar $EAP_HOME
   if [[ "0" != "$?" ]]; then
-    echo "Error installing JBoss Fuse 6.3.0 EAP integration"
+    echo "Error installing JBoss Fuse 6.3.0 JBoss EAP integration"
     exit 1
   fi
-  /root/install/fuse-integration-eap-full-1.7.0.redhat-630013-installer.zip
   echo "Configuring JBoss EAP Fuse Integration Standalone server ..."
   echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.unsecure=0.0.0.0\"" >> bin/standalone.conf
   echo "Restarting JBoss EAP Fuse Integration Standalone Server ..."
@@ -73,7 +72,7 @@ if [[ -z "$RUNNING" ]]; then
   cat $JBOSS_HOME/standalone/log/server.log
 fi
 
-netstat -anp
+head-jboss-fuse
 
 if [[ "$1" == "$DAEMON_COMMAND" ]]; then
   echo "Entering in sleep mode!!"
