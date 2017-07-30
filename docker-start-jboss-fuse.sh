@@ -5,7 +5,7 @@ function download_files() {
   wget -L https://s3-eu-west-1.amazonaws.com/dublinstudio-docker-images-software-repository/jboss-fuse/jboss-eap-6.4.0-installer.jar -O /root/install/jboss-eap-6.4.0-installer.jar
   wget -L https://s3-eu-west-1.amazonaws.com/dublinstudio-docker-images-software-repository/jboss-fuse/fuse-eap-installer-6.3.0.redhat-187.jar -O /root/install/fuse-eap-installer-6.3.0.redhat-187.jar
   wget -L https://s3-eu-west-1.amazonaws.com/dublinstudio-docker-images-software-repository/jboss-fuse/devstudio-integration-stack-10.3.0.GA-fuse-tooling-installer.jar -O /root/install/devstudio-integration-stack-10.3.0.GA-fuse-tooling-installer.jar
-  wget -L https://s3-eu-west-1.amazonaws.com/dublinstudio-docker-images-software-repository/jboss-fuse-karaf-6.3.0.redhat-187.zip -O /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip
+  wget -L https://s3-eu-west-1.amazonaws.com/dublinstudio-docker-images-software-repository/jboss-fuse/jboss-fuse-karaf-6.3.0.redhat-187.zip -O /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip
 }
 
 if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
@@ -20,21 +20,35 @@ if [[ ! -e $JBOSS_HOME/bin && -e /root/install ]]; then
   fi
   echo "Installing JBoss Fuse 6.3.0 ..."
   java -jar /root/install/fuse-eap-installer-6.3.0.redhat-187.jar
-  if [[ "0" == "$?" ]]; then
-    rm -Rf /root/install
-  else
+  if [[ "0" != "$?" ]]; then
     echo "Error installing JBoss Fuse 6.3.0"
     exit 1
   fi
-  echo "Installing JBoss Fuse 6.3.0 Karaf ..."
+  echo "Installing JBoss Fuse 6.3.0 devstudio integration ..."
+  echo -e "1\n" | java -jar /root/install/devstudio-integration-stack-10.3.0.GA-fuse-tooling-installer.jar
+  if [[ "0" != "$?" ]]; then
+    echo "Error installing JBoss Fuse 6.3.0 devstudio integration"
+    exit 1
+  fi
+  echo "Configuring EAP standalone server ..."
+  echo "JAVA_OPTS=\"\$JAVA_OPTS -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.unsecure=0.0.0.0\"" >> bin/standalone.conf
+  echo "Restarting JBoss EAP Fuse Integration Server ..."
+  restart-jboss-fuse
+  echo "Installing JBoss Fuse 6.3.0 Karaf for developers ..."
   unzip /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip -d /usr/lib
   mv /usr/lib/jboss-fuse-* /usr/lib/jboss-fuse-karaf
+  if [[ "0" == "$?" ]]; then
+    rm -Rf /root/install
+  else
+    echo "Error installing JBoss Fuse 6.3.0 Karaf"
+    exit 1
+  fi
 fi
 
-RUNNING="$(netstat -anp|grep '8080 '|grep -v grep)"
+RUNNING="$(ps -eaf|grep -v grep|grep -e standalone)"
 
 if [[ -z "$RUNNING" ]]; then
-  nohup $PWD/bin/standalone.sh > /var/log/jboss-fuse-bootstrap.log &
+  start-jboss-fuse
 fi
 
 netstat -anp

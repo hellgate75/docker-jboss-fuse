@@ -30,16 +30,15 @@ RUN apt-get update \
 
 COPY auto.xml /root/install/auto.xml
 COPY auto.xml.variables /root/install/auto.xml.variables
-# COPY jboss-eap-6.4.0-installer.jar /root/install/jboss-eap-6.4.0-installer.jar
-# COPY fuse-eap-installer-6.3.0.redhat-187.jar /root/install/fuse-eap-installer-6.3.0.redhat-187.jar
-# COPY jboss-fuse-karaf-6.3.0.redhat-187.zip /root/install/jboss-fuse-karaf-6.3.0.redhat-187.zip
-
 COPY docker-start-jboss-fuse.sh /docker-start-jboss-fuse.sh
-
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY start-jboss-fuse.sh /usr/local/bin/start-jboss-fuse
+COPY stop-jboss-fuse.sh /usr/local/bin/stop-jboss-fuse
+COPY restart-jboss-fuse.sh /usr/local/bin/restart-jboss-fuse
 
 RUN chmod 777 /docker-start-jboss-fuse.sh \
-    && chmod 777 /docker-entrypoint.sh
+    && chmod 777 /docker-entrypoint.sh \
+    && chmod 777 /usr/local/bin/*-jboss-fuse
 
 WORKDIR $JBOSS_HOME
 
