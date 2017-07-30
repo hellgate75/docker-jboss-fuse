@@ -7,7 +7,7 @@
 
 This continer install on first start-up following features:
 
-* JBoss Fuse 6.3.0 integrated in JBoss EAP 6.4.0
+* JBoss Fuse 6.3.0 integration on JBoss EAP 6.4.0
 * JBoss Fuse 6.3.0 over Apache Karaf
 
 Available Docker image versions :
