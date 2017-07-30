@@ -1,4 +1,4 @@
 #!/bin/bash
 stop-jboss-fuse
-sleep 15
+sleep 10
 start-jboss-fuse

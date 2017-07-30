@@ -6,6 +6,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle \
     EAP_HOME=/usr/lib/jboss-fuse \
     JBOSS_HOME=/usr/lib/jboss-fuse \
     JBOSS_USER=root \
+    FUSE_HOME=/usr/lib/jboss-fuse-karaf \
     DEBIAN_FRONTEND=noninteractive
 
 #Installing oracle java sdk 8 and Jboss fuse pre-requisites
@@ -35,10 +36,13 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY start-jboss-fuse.sh /usr/local/bin/start-jboss-fuse
 COPY stop-jboss-fuse.sh /usr/local/bin/stop-jboss-fuse
 COPY restart-jboss-fuse.sh /usr/local/bin/restart-jboss-fuse
+COPY start-karaf-fuse.sh /usr/local/bin/start-karaf-fuse
+COPY stop-karaf-fuse.sh /usr/local/bin/stop-karaf-fuse
+COPY restart-karaf-fuse.sh /usr/local/bin/restart-karaf-fuse
 
 RUN chmod 777 /docker-start-jboss-fuse.sh \
     && chmod 777 /docker-entrypoint.sh \
-    && chmod 777 /usr/local/bin/*-jboss-fuse
+    && chmod 777 /usr/local/bin/*-fuse
 
 WORKDIR $JBOSS_HOME
 
@@ -46,4 +50,4 @@ CMD /docker-start-jboss-fuse.sh -daemon
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 8080 9990 9999 4447
+EXPOSE 8009 8080 8181 8101 9990 9999 4447 8443 4712 4713
